@@ -1,27 +1,41 @@
-"""
-Created on Thu Jun  4 10:31:30 2020
 
-@author: FelipeMohamed
+#Created on Wed Jun  3 16:48:10 2020
+#@author: FelipeMohamed
 
-"""
-
-"""
-código com aumento de performace com adições 
-import NUMPY-Código que aumeta a velocidade resposta com 'dot',
-aumentando sua performace
-
-"""
+# -*- coding: utf-8 -*-
 import numpy as np
-e=np.array([1, 7, 3])
-d=np.array([0.8, 0.1, 0])
-#soma- é reponsável pela somatória entradas *pessos 
-def soma(a,b):
-     return a.dot(d)
+entrada=np.array([[0,0],[0,1],[1,0],[1,1]])
+pesos=np.array([0.0,0.0]#parte que fará ativção do neurônio
+saidas=np.array([0,0,0,1])
+taxaDeAprender=0.1
 
-s=soma(e, d)
-# a função STEOFUNCTION ativa limiar do perceptron da rede quando maior 1
 def stepfunction(soma):
     if (soma>=1):
         return 1
     return 0
-funcao=stepfunction(s)
+
+def calcularAsSaidas(regristro):
+   # s=regristro.dot(pesos)
+    return stepfunction(regristro.dot(pesos))
+# a função a seguir irá treinar a rede
+def supervicionar():
+    erroTotal=1
+    while(erroTotal!=0):
+        erroTotal=1
+        # analisará o processo de soma e verificará se conver com a saída.
+        for i in range((len(saidas))):
+            saidaCalculada=calcularAsSaidas(np.asarray(entrada[i]))
+            print("saida calculada:"+str(saidaCalculada))
+            # verifica de o erro de comparação
+            erro=abs(saidas[i]-saidaCalculada)
+           
+            erroTotal+=erro
+            #adiciona novos pessoos até operação dar erro=0, ou seja  saída forem igiaus
+            for j in range((len(pesos))):
+                pesos[j]= pesos[j]+(taxaDeAprender*erro*entrada[i][j])
+                print("valor novo de peso:"+str(pesos[j]))
+                
+        print("valor do erroTotal tentativa:"+str(erroTotal))
+
+                  
+supervicionar()  
